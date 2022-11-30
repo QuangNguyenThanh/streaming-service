@@ -1,0 +1,57 @@
+# ===================================================================
+# Server specific properties
+# ===================================================================
+server:
+  port: 8000
+# ===================================================================
+# Spring specific properties
+# ===================================================================
+spring:
+  application:
+    name: stream-service
+  datasource:
+    platform: mysql
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/stream_service}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    show-sql: false
+    open-in-view: false
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+
+application:
+  twitch:
+    url:
+      gateway: ${TWITCH_HOST:https://id.twitch.tv/}
+      authentication: ${TWITCH_AUTH:https://id.twitch.tv/oauth2/token}
+      userInfo: ${TWITCH_URL_GET_USER_INFO:https://api.twitch.tv/helix/users}
+      streamKey: ${TWITCH_URL_GET_STREAM_KEY:https://api.twitch.tv/helix/streams/key?broadcaster_id={broadcasterId}}
+    oauth:
+      clientId: ${TWITCH_CLIENT_ID:rk0qllr0498x2byb2twcy3u1mnubb3}
+      clientSecret: ${TWITCH_CLIENT_SECRET:am8j2225rbqwh7ivvpm35ypvmu3bvc}
+      redirectUri: ${TWITCH_REDIRECT_URI:http://localhost:8000/oauth_twitch}
+  youtube:
+    url:
+      createStream: ${YOUTUBE_URL_CREATE_STREAM:https://youtube.googleapis.com/youtube/v3/liveStreams?part=snippet,cdn}
+      channelInfo: ${YOUTUBE_URL_GET_CHANNEL:https://youtube.googleapis.com/youtube/v3/channels?part=snippet&mine=true}
+      callBack: ${YOUTUBE_URL_CALLBACK:http://localhost:8000/Callback}
+      createBoardcast: ${YTB_BOARDCAST:https://youtube.googleapis.com/youtube/v3/liveBroadcasts?part=snippet,status,contentDetails}
+      bind: ${BIND_URL:https://youtube.googleapis.com/youtube/v3/liveBroadcasts/bind?id={boadcastId}&part=snippet&streamId={streamId}}
+  jwt:
+    base-64-secret: ${JWT_BASE_64_SECRET:eGNoanU4YWhkZnV5aWFzaGRpdWFzaGJkaXVhc2hkYml1YXNkaHVpYXNkYXNoZHVpYXNoZCB1aWFzaGR1aWFzdWRoYXN1aWRoYXVpcw==}
+    token-validity-in-seconds: ${JWT_VALIDITY_IN_SECONDS:3600}
+  cors:
+    allowed-origins: ${CORS_ALLOW_ORIGINS:http://localhost:3000}
+    allowed-methods: ${CORS_ALLOW_METHODS:*}
+    allowed-headers: ${CORS_ALLOW_HEADERS:*}
+    exposed-headers: ${CORS_EXPOSED_HEADERS:*}
+    allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
+
